@@ -149,6 +149,28 @@ class _GetGoingMainState extends State<GetGoingMain> {
                 ),
               ),
             ),
+            const SizedBox(height: 32.0),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+              child: Row(
+                children: [
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('Choose your exercise',
+                            style: TextStyle(
+                              color: Colors.grey[800],
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        const Text('Can we burn our legs?',
+                            style: TextStyle(
+                                color: Color.fromRGBO(0x20, 0xba, 0xFF, 1.0),
+                                fontSize: 16.0))
+                      ]),
+                ],
+              ),
+            )
           ],
         ),
       ),
