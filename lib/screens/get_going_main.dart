@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import '../widgets/centered_horizontal_list_view.dart';
 
 class GetGoingMain extends StatefulWidget {
   const GetGoingMain({super.key});
@@ -10,6 +11,8 @@ class GetGoingMain extends StatefulWidget {
 }
 
 class _GetGoingMainState extends State<GetGoingMain> {
+  var exerciseList = ["Running", "Cycling", "Walking"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +45,7 @@ class _GetGoingMainState extends State<GetGoingMain> {
                   ),
                   InkWell(
                     onTap: () {
+                      Navigator.pushNamed(context, '/activities');
                       setState(() {});
                     },
                     child: Row(
@@ -91,10 +95,11 @@ class _GetGoingMainState extends State<GetGoingMain> {
                           backgroundColor: Colors.white,
                           circularStrokeCap: CircularStrokeCap.round,
                           center: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 12.0),
+                            padding: const EdgeInsets.fromLTRB(
+                                0.0, 12.0, 0.0, 12.0),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceEvenly,
                               children: [
                                 SvgPicture.asset(
                                   'assets/ic_running_white.svg',
@@ -122,10 +127,11 @@ class _GetGoingMainState extends State<GetGoingMain> {
                           backgroundColor: Colors.white,
                           circularStrokeCap: CircularStrokeCap.round,
                           center: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 12.0),
+                            padding: const EdgeInsets.fromLTRB(
+                                0.0, 12.0, 0.0, 12.0),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceEvenly,
                               children: [
                                 SvgPicture.asset(
                                   'assets/ic_timer.svg',
@@ -170,10 +176,39 @@ class _GetGoingMainState extends State<GetGoingMain> {
                       ]),
                 ],
               ),
-            )
+            ),
+            const SizedBox(height: 16.0),
+            Expanded(
+                child:
+                    CenteredHorizontalListView(exerciseList: exerciseList)),
+            ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(160.0, 45.0),
+                    foregroundColor:
+                        const Color.fromRGBO(0x6b, 0xd1, 0xff, 1.0),
+                    backgroundColor:
+                        const Color.fromRGBO(0x20, 0xba, 0xff, 1.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          30.0), // Set the border radius
+                    ),
+                    elevation: 4.0),
+                child: Text(
+                  'Get ready',
+                  style: TextStyle(color: Colors.white, fontSize: 16.0),
+                )),
+            const SizedBox(height: 16.0)
           ],
         ),
       ),
     );
   }
 }
+
+// SvgPicture.asset(
+// 'assets/ic_timer.svg',
+// // Update with the correct path
+// width: 30.0,
+// height: 30.0,
+// ),
