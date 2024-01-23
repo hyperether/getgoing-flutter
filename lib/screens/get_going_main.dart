@@ -185,7 +185,10 @@ class _GetGoingMainState extends State<GetGoingMain> {
                   child:
                       CenteredHorizontalListView(exerciseList: exerciseList)),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/tracking');
+                    setState(() {});
+                  },
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size(160.0, 45.0),
                       foregroundColor:
