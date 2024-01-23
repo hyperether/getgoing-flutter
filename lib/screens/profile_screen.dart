@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/shared_preferences_manager.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -8,6 +9,27 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final TextEditingController _controllerGender = TextEditingController();
+  int _storedGender = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStoredValue();
+  }
+
+  _loadStoredValue() async {
+    int gender = await SharedPreferencesManager.getGender();
+    setState(() {
+      _storedGender = gender;
+    });
+  }
+
+  _saveValue() async {
+    await SharedPreferencesManager.setGender(int.parse(_controllerGender.text));
+    _loadStoredValue();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +43,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
+              TextField(
+                controller: _controllerGender,
+                decoration: InputDecoration(labelText: 'Enter a value 0/1/2:'),
+              ),
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _saveValue,
+                child: Text('Save to SharedPreferences'),
+              ),
+              SizedBox(height: 16.0),
+              Text('Stored Value: $_storedGender'),
               const SizedBox(height: 8.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -39,8 +72,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Column(
                     children: [
-                      Icon(Icons.male, size: 40.0),
-                      Text('    Male    ')
+                      if (_storedGender == 0)
+                        Icon(Icons.male, size: 40.0)
+                      else if (_storedGender == 1)
+                        Icon(Icons.female, size: 40.0)
+                      else if (_storedGender == 2)
+                        Icon(Icons.transgender, size: 40.0),
+                      if (_storedGender == 0)
+                        Text('    Male    ')
+                      else if (_storedGender == 1)
+                        Text('    Female    ')
+                      else if (_storedGender == 2)
+                        Text('    Trans     ')
                     ],
                   ),
                   Column(
