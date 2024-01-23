@@ -27,8 +27,14 @@ class _GetGoingMainState extends State<GetGoingMain> {
                   children: <Widget>[
                     SvgPicture.asset('assets/ic_logo_small.svg',
                         width: 50.0, height: 50.0),
-                    SvgPicture.asset('assets/ic_light_user.svg',
-                        width: 30.0, height: 40.0),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/profile');
+                        setState(() {});
+                      },
+                      child: SvgPicture.asset('assets/ic_light_user.svg',
+                          width: 30.0, height: 40.0),
+                    ),
                   ],
                 ),
               ),
