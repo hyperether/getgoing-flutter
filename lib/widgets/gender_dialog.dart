@@ -12,7 +12,7 @@ class GenderDialog extends StatefulWidget {
 }
 
 class _GenderDialogDialogState extends State<GenderDialog> {
-  late Gender _storedGender;
+  Gender _storedGender = Gender.male;
   int genderNumber = 0;
 
   @override

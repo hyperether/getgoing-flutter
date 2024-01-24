@@ -26,7 +26,7 @@ class _MyActivitiesState extends State<MyActivities> {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Walking',
@@ -48,18 +48,18 @@ class _MyActivitiesState extends State<MyActivities> {
                       )
                     ],
                   ),
-                  SizedBox(height: 12.0),
-                  Container(
+                  const SizedBox(height: 12.0),
+                  SizedBox(
                     height: 10.0,
                     child: LinearProgressIndicator(
                         borderRadius: BorderRadius.circular(10.0),
                         value: 0.5, // Set the progress value (0.0 to 1.0)
                         backgroundColor: Colors.white, // Set the background color
-                        valueColor: AlwaysStoppedAnimation<Color>(
+                        valueColor: const AlwaysStoppedAnimation<Color>(
                             Color.fromRGBO(0x20, 0xba, 0xff, 1.0))),
                   ),
-                  SizedBox(height: 20.0),
-                  Row(
+                  const SizedBox(height: 20.0),
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Running',
@@ -81,18 +81,18 @@ class _MyActivitiesState extends State<MyActivities> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 12.0),
-                  Container(
+                  const SizedBox(height: 12.0),
+                  SizedBox(
                     height: 10.0,
                     child: LinearProgressIndicator(
                         borderRadius: BorderRadius.circular(10.0),
                         value: 0.5, // Set the progress value (0.0 to 1.0)
                         backgroundColor: Colors.white, // Set the background color
-                        valueColor: AlwaysStoppedAnimation<Color>(
+                        valueColor: const AlwaysStoppedAnimation<Color>(
                             Color.fromRGBO(0x20, 0xba, 0xff, 1.0))),
                   ),
-                  SizedBox(height: 20.0),
-                  Row(
+                  const SizedBox(height: 20.0),
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Cycling',
@@ -114,14 +114,14 @@ class _MyActivitiesState extends State<MyActivities> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 12.0),
-                  Container(
+                  const SizedBox(height: 12.0),
+                  SizedBox(
                     height: 10.0,
                     child: LinearProgressIndicator(
                         borderRadius: BorderRadius.circular(10.0),
                         value: 0.5, // Set the progress value (0.0 to 1.0)
                         backgroundColor: Colors.white, // Set the background color
-                        valueColor: AlwaysStoppedAnimation<Color>(
+                        valueColor: const AlwaysStoppedAnimation<Color>(
                             Color.fromRGBO(0x20, 0xba, 0xff, 1.0))),
                   ),
                   const SizedBox(height: 32.0)
@@ -142,13 +142,13 @@ class _MyActivitiesState extends State<MyActivities> {
                           height: 28.0,
                         ),
                         const SizedBox(width: 12.0),
-                        Text('MY GOAL',
+                        const Text('MY GOAL',
                             style: TextStyle(
                                 fontSize: 22.0, fontWeight: FontWeight.bold))
                       ],
                     ),
                     const SizedBox(height: 22.0),
-                    GetGoingSeekBar()
+                    const GetGoingSeekBar()
                   ],
                 ),
               ),

@@ -83,14 +83,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             children: <Widget>[
               const SizedBox(height: 8.0),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     'MY DATA',
                     style: TextStyle(
                         fontSize: 22.0,
-                        color: const Color.fromRGBO(0x2f, 0x2f, 0x2f, 1.0)),
+                        color: Color.fromRGBO(0x2f, 0x2f, 0x2f, 1.0)),
                   ),
                 ],
               ),
@@ -105,17 +105,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Column(
                       children: [
                         if (_storedGender == Gender.male)
-                          Icon(Icons.male, size: 40.0)
+                          const Icon(Icons.male, size: 40.0)
                         else if (_storedGender == Gender.female)
-                          Icon(Icons.female, size: 40.0)
+                          const Icon(Icons.female, size: 40.0)
                         else if (_storedGender == Gender.other)
-                          Icon(Icons.transgender, size: 40.0),
+                          const Icon(Icons.transgender, size: 40.0),
                         if (_storedGender == Gender.male)
-                          Text('    Male    ')
+                          const Text('    Male    ')
                         else if (_storedGender == Gender.female)
-                          Text('    Female    ')
+                          const Text('    Female    ')
                         else if (_storedGender == Gender.other)
-                          Text('    Other     ')
+                          const Text('    Other     ')
                       ],
                     ),
                   ),
@@ -125,11 +125,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                     child: Column(
                       children: [
-                        Icon(Icons.cake, size: 40.0),
+                        const Icon(Icons.cake, size: 40.0),
                         Row(children: [
                           Text('$_age'),
-                          SizedBox(width: 4.0),
-                          Text('years')
+                          const SizedBox(width: 4.0),
+                          const Text('years')
                         ])
                       ],
                     ),
@@ -137,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
               const SizedBox(height: 20.0),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
@@ -155,19 +155,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
               const SizedBox(height: 60.0),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     'TOTAL ACTIVITIES',
                     style: TextStyle(
                         fontSize: 22.0,
-                        color: const Color.fromRGBO(0x2f, 0x2f, 0x2f, 1.0)),
+                        color: Color.fromRGBO(0x2f, 0x2f, 0x2f, 1.0)),
                   ),
                 ],
               ),
               const SizedBox(height: 20.0),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(

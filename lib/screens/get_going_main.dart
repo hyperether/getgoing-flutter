@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import '../domain/repository/gg_repository.dart';
 import '../widgets/centered_horizontal_list_view.dart';
 
 class GetGoingMain extends StatefulWidget {
@@ -185,7 +186,7 @@ class _GetGoingMainState extends State<GetGoingMain> {
                 ),
               ),
               const SizedBox(height: 16.0),
-              Container(
+              SizedBox(
                   width: double.infinity,
                   height: 150.0,
                   child:
@@ -206,7 +207,7 @@ class _GetGoingMainState extends State<GetGoingMain> {
                             30.0), // Set the border radius
                       ),
                       elevation: 4.0),
-                  child: Text(
+                  child: const Text(
                     'Get ready',
                     style: TextStyle(color: Colors.white, fontSize: 16.0),
                   )),
@@ -217,4 +218,14 @@ class _GetGoingMainState extends State<GetGoingMain> {
       ),
     );
   }
+
+  @override
+  void initState() {
+    initDb();
+    super.initState();
+  }
+}
+
+void initDb() async {
+  await GGRepository.instance.database;
 }

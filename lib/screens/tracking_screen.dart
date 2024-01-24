@@ -23,7 +23,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
             color: const Color.fromRGBO(0xf0, 0xf4, 0xf7, 1.0),
             width: double.infinity,
             height: double.infinity,
-            child: Center(
+            child: const Center(
               child: Text(
                 'Map fragment',
                 style: TextStyle(color: Colors.white),
@@ -35,10 +35,10 @@ class _TrackingScreenState extends State<TrackingScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                color: Color.fromRGBO(0xff, 0xfe, 0xff, 1.0),
+                color: const Color.fromRGBO(0xff, 0xfe, 0xff, 1.0),
                 height: 140,
-                child: Center(
-                  child: const Text(
+                child: const Center(
+                  child: Text(
                     'Set goal for this exercise',
                     style: TextStyle(
                         color: Color.fromRGBO(0x20, 0xba, 0xff, 1.0),
@@ -66,16 +66,16 @@ class _TrackingScreenState extends State<TrackingScreen> {
             bottom: 140.0,
             child: ClipOval(
                 child: Container(
-              color: Color.fromRGBO(0xff, 0xff, 0xff, 0.8),
+              color: const Color.fromRGBO(0xff, 0xff, 0xff, 0.8),
               width: 120.0,
               height: 120.0,
               child: Center(
                 child: ClipOval(
                   child: Container(
-                      color: Color.fromRGBO(0xff, 0xfe, 0xff, 1.0),
+                      color: const Color.fromRGBO(0xff, 0xfe, 0xff, 1.0),
                       width: 100.0,
                       height: 100.0,
-                      child: Icon(
+                      child: const Icon(
                         Icons.play_arrow_rounded,
                         color: Color.fromRGBO(0x20, 0xba, 0xff, 1.0),
                         size: 100.0,

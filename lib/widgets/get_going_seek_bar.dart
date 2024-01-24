@@ -17,19 +17,19 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Text('$_value',
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 22.0,
                   fontWeight: FontWeight.bold,
                   color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0))),
-          SizedBox(width: 4.0),
-          Text('meters'),
-          SizedBox(width: 32.0)
+          const SizedBox(width: 4.0),
+          const Text('meters'),
+          const SizedBox(width: 32.0)
         ]),
-        Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        const Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Text('About 0 kcal', style: TextStyle(fontSize: 12.0)),
           SizedBox(width: 32.0)
         ]),
-        SizedBox(height: 20.0),
+        const SizedBox(height: 20.0),
         Padding(
           padding: const EdgeInsets.fromLTRB(32.0, 0.0, 32.0, 0.0),
           child: Slider(
@@ -44,9 +44,9 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
               min: 0.0,
               max: 10000.0),
         ),
-        SizedBox(height: 10.0),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(64.0, 0.0, 64.0, 0.0),
+        const SizedBox(height: 10.0),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(64.0, 0.0, 64.0, 0.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -58,35 +58,35 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
             ],
           ),
         ),
-        SizedBox(height: 32.0),
+        const SizedBox(height: 32.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.directions_walk,
+            const Icon(Icons.directions_walk,
                 color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0), size: 32.0),
-            Text('0', style: TextStyle(fontSize: 16.0)),
-            SizedBox(width: 4.0),
-            Text('min', style: TextStyle(fontSize: 16.0)),
-            SizedBox(width: 10.0),
-            Text('or', style: TextStyle(fontSize: 16.0)),
-            SizedBox(width: 10.0),
-            Icon(Icons.directions_run,
+            const Text('0', style: TextStyle(fontSize: 16.0)),
+            const SizedBox(width: 4.0),
+            const Text('min', style: TextStyle(fontSize: 16.0)),
+            const SizedBox(width: 10.0),
+            const Text('or', style: TextStyle(fontSize: 16.0)),
+            const SizedBox(width: 10.0),
+            const Icon(Icons.directions_run,
                 color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0), size: 32.0),
-            Text('0', style: TextStyle(fontSize: 16.0)),
-            SizedBox(width: 4.0),
-            Text('min', style: TextStyle(fontSize: 16.0)),
-            SizedBox(width: 10.0),
-            Text('or', style: TextStyle(fontSize: 16.0)),
-            SizedBox(width: 10.0),
+            const Text('0', style: TextStyle(fontSize: 16.0)),
+            const SizedBox(width: 4.0),
+            const Text('min', style: TextStyle(fontSize: 16.0)),
+            const SizedBox(width: 10.0),
+            const Text('or', style: TextStyle(fontSize: 16.0)),
+            const SizedBox(width: 10.0),
             SvgPicture.asset(
               'assets/ic_cycling_light.svg',
               width: 28.0,
               height: 28.0,
             ),
-            SizedBox(width: 4.0),
-            Text('0', style: TextStyle(fontSize: 16.0)),
-            SizedBox(width: 4.0),
-            Text('min', style: TextStyle(fontSize: 16.0))
+            const SizedBox(width: 4.0),
+            const Text('0', style: TextStyle(fontSize: 16.0)),
+            const SizedBox(width: 4.0),
+            const Text('min', style: TextStyle(fontSize: 16.0))
           ],
         ),
         const SizedBox(height: 36.0),
@@ -102,7 +102,7 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
                       BorderRadius.circular(30.0), // Set the border radius
                 ),
                 elevation: 4.0),
-            child: Text(
+            child: const Text(
               'Save changes',
               style: TextStyle(color: Colors.white, fontSize: 16.0),
             )),

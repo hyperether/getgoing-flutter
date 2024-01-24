@@ -14,7 +14,7 @@ class AgePickerDialog extends StatefulWidget {
 class _AgePickerDialogState extends State<AgePickerDialog> {
   List<bool> selectedItems = List.generate(100, (index) => false);
   int selectedItem = -1;
-  late int _age;
+  int _age = 0;
 
   @override
   void initState() {
@@ -36,7 +36,7 @@ class _AgePickerDialogState extends State<AgePickerDialog> {
           style: TextStyle(
             color: Color.fromRGBO(0x20, 0xba, 0xff, 1.0),
           )),
-      content: Container(
+      content: SizedBox(
         height: 200.0,
         child: ListWheelScrollView(
           itemExtent: 50.0,
@@ -45,8 +45,7 @@ class _AgePickerDialogState extends State<AgePickerDialog> {
               (index) => GestureDetector(
                     onTap: () {
                       setState(() {
-                        selectedItem =
-                            index; //selectedItems[index] = !selectedItems[index];
+                        selectedItem = index;
                       });
                     },
                     child: Container(
