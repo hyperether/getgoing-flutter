@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:getgoing_flutter/widgets/age_picker_dialog.dart';
+import 'package:getgoing_flutter/widgets/gender_dialog.dart';
+import '../domain/models/gender.dart';
 import '../utils/shared_preferences_manager.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -9,8 +12,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final TextEditingController _controllerGender = TextEditingController();
-  int _storedGender = 0;
+  Gender _storedGender = Gender.male;
+  int _age = 0;
 
   @override
   void initState() {
@@ -21,13 +24,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
   _loadStoredValue() async {
     int gender = await SharedPreferencesManager.getGender();
     setState(() {
-      _storedGender = gender;
+      if (gender == 0) {
+        _storedGender = Gender.male;
+      } else if (gender == 1) {
+        _storedGender = Gender.female;
+      } else if (gender == 2) {
+        _storedGender = Gender.other;
+      }
+    });
+
+    int age = await SharedPreferencesManager.getAge();
+    setState(() {
+      _age = age;
     });
   }
 
-  _saveValue() async {
-    await SharedPreferencesManager.setGender(int.parse(_controllerGender.text));
-    _loadStoredValue();
+  Future<void> _showGenderDialog(BuildContext context, Gender gender) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return GenderDialog(
+          onValueSelected: (gender) {
+            setState(() {
+              _storedGender = gender;
+            });
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _showAgePickerDialog(BuildContext context, int age) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AgePickerDialog(
+          onValueSelected: (age) {
+            setState(() {
+              _age = age;
+            });
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -43,17 +82,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
-              TextField(
-                controller: _controllerGender,
-                decoration: InputDecoration(labelText: 'Enter a value 0/1/2:'),
-              ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: _saveValue,
-                child: Text('Save to SharedPreferences'),
-              ),
-              SizedBox(height: 16.0),
-              Text('Stored Value: $_storedGender'),
               const SizedBox(height: 8.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -70,27 +98,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
-                    children: [
-                      if (_storedGender == 0)
-                        Icon(Icons.male, size: 40.0)
-                      else if (_storedGender == 1)
-                        Icon(Icons.female, size: 40.0)
-                      else if (_storedGender == 2)
-                        Icon(Icons.transgender, size: 40.0),
-                      if (_storedGender == 0)
-                        Text('    Male    ')
-                      else if (_storedGender == 1)
-                        Text('    Female    ')
-                      else if (_storedGender == 2)
-                        Text('    Trans     ')
-                    ],
+                  InkWell(
+                    onTap: () {
+                      _showGenderDialog(context, _storedGender);
+                    },
+                    child: Column(
+                      children: [
+                        if (_storedGender == Gender.male)
+                          Icon(Icons.male, size: 40.0)
+                        else if (_storedGender == Gender.female)
+                          Icon(Icons.female, size: 40.0)
+                        else if (_storedGender == Gender.other)
+                          Icon(Icons.transgender, size: 40.0),
+                        if (_storedGender == Gender.male)
+                          Text('    Male    ')
+                        else if (_storedGender == Gender.female)
+                          Text('    Female    ')
+                        else if (_storedGender == Gender.other)
+                          Text('    Other     ')
+                      ],
+                    ),
                   ),
-                  Column(
-                    children: [
-                      Icon(Icons.cake, size: 40.0),
-                      Text('21 years old ')
-                    ],
+                  InkWell(
+                    onTap: () {
+                      _showAgePickerDialog(context, 5);
+                    },
+                    child: Column(
+                      children: [
+                        Icon(Icons.cake, size: 40.0),
+                        Row(children: [
+                          Text('$_age'),
+                          SizedBox(width: 4.0),
+                          Text('years')
+                        ])
+                      ],
+                    ),
                   )
                 ],
               ),
