@@ -14,6 +14,13 @@ class GetGoingMain extends StatefulWidget {
 class _GetGoingMainState extends State<GetGoingMain> {
   var exerciseList = ["Running", "Cycling", "Walking"];
 
+
+  Future<String> getDbPath() async {
+    Future<String> result = GGRepository.instance.getDatabasePath();
+    await result;
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -222,6 +229,11 @@ class _GetGoingMainState extends State<GetGoingMain> {
   @override
   void initState() {
     initDb();
+    getDbPath().then((result) {
+      print('Data: $result');
+    }).catchError((error) {
+      print('Error: $error');
+    });
     super.initState();
   }
 }

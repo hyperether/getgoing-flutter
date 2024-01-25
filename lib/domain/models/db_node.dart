@@ -25,7 +25,7 @@ class DbNode {
       longitude: map['longitude'],
       velocity: map['velocity'],
       index: map['index'],
-      last: map['last'],
+      last: map['last'] == 1,
       routeId: map['routeId'],
     );
   }
@@ -37,7 +37,7 @@ class DbNode {
       'longitude': longitude,
       'velocity': velocity,
       'index': index,
-      'last': last,
+      'last': last == true ? 1 : 0,
       'routeId': routeId,
     };
   }

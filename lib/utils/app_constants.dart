@@ -1,6 +1,8 @@
 
 class AppConst {
   static const String id = 'id';
+  static const String dbNodeTable = 'DbNode';
+  static const String dbRouteTable = 'DbRoute';
   static const String duration = 'duration';
   static const String energy = 'energy';
   static const String length = 'length';
