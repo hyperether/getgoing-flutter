@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class TrackingScreen extends StatefulWidget {
   const TrackingScreen({super.key});
@@ -8,6 +11,35 @@ class TrackingScreen extends StatefulWidget {
 }
 
 class _TrackingScreenState extends State<TrackingScreen> {
+  late GoogleMapController mapController;
+  LatLng myLocation = const LatLng(44.787197, 20.457273);
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentLocation();
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
+  Future<void> getCurrentLocation() async {
+    var status = await Permission.location.status;
+    if (status != PermissionStatus.granted) {
+      status = await Permission.location.request();
+      if (status != PermissionStatus.granted) {
+        // Handle the case where the user denied location permission.
+        return;
+      }
+    }
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
+    setState(() {
+      myLocation = LatLng(position.latitude, position.longitude);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double parentWidth = MediaQuery.of(context).size.width;
@@ -19,15 +51,13 @@ class _TrackingScreenState extends State<TrackingScreen> {
       ),
       body: Stack(
         children: <Widget>[
-          Container(
-            color: const Color.fromRGBO(0xf0, 0xf4, 0xf7, 1.0),
-            width: double.infinity,
-            height: double.infinity,
-            child: const Center(
-              child: Text(
-                'Map fragment',
-                style: TextStyle(color: Colors.white),
-              ),
+          GoogleMap(
+            onMapCreated: _onMapCreated,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+            initialCameraPosition: CameraPosition(
+              target: myLocation,
+              zoom: 11.0,
             ),
           ),
           Column(
@@ -48,18 +78,18 @@ class _TrackingScreenState extends State<TrackingScreen> {
               )
             ],
           ),
-          Positioned(
-              left: (parentWidth - 160.0) / 2,
-              bottom: 100,
-              child: Center(
-                child: ClipOval(
-                  child: Container(
-                    color: const Color.fromRGBO(0xf0, 0xf4, 0xf7, 1.0),
-                    width: 160.0,
-                    height: 160.0,
-                  ),
-                ),
-              )),
+          // Positioned(
+          //     left: (parentWidth - 160.0) / 2,
+          //     bottom: 100,
+          //     child: Center(
+          //       child: ClipOval(
+          //         child: Container(
+          //           color: const Color.fromRGBO(0xf0, 0xf4, 0xf7, 1.0),
+          //           width: 160.0,
+          //           height: 160.0,
+          //         ),
+          //       ),
+          //     )),
           Positioned(
             left: (parentWidth - 120.0) / 2,
             // Adjust the width of the child accordingly
