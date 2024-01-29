@@ -18,4 +18,7 @@ class AppConst {
   static const String last = 'last';
   static const String routeId = 'routeId';
 
+  static const double avgSpeedWalk = 1.5;
+  static const double avgSpeedRun = 2.5;
+  static const double avgSpeedCycling = 5;
 }

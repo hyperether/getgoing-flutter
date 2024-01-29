@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/shared_preferences_manager.dart';
+import '../domain/repository/shared_preferences_manager.dart';
 
 class AgePickerDialog extends StatefulWidget {
   final Function(int) onValueSelected;

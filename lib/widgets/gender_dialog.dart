@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getgoing_flutter/domain/models/gender.dart';
-import '../utils/shared_preferences_manager.dart';
+import '../domain/repository/shared_preferences_manager.dart';
 
 class GenderDialog extends StatefulWidget {
   final Function(Gender) onValueSelected;

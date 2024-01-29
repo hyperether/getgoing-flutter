@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -11,17 +13,29 @@ class TrackingScreen extends StatefulWidget {
 }
 
 class _TrackingScreenState extends State<TrackingScreen> {
-  late GoogleMapController mapController;
-  LatLng myLocation = const LatLng(44.787197, 20.457273);
+  GoogleMapController? mapController;
+  LatLng? myLocation;
+  bool _isCameraMoving = false;
 
   @override
   void initState() {
     super.initState();
     getCurrentLocation();
+    // Start a timer to update the location every 5 seconds
+    Timer.periodic(const Duration(seconds: 3), (Timer timer) {
+      _moveToCurrentLocation();
+    });
   }
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+    _moveToCurrentLocation();
+  }
+
+  void _moveToCurrentLocation() {
+    if (mapController != null && myLocation != null) {
+      mapController?.animateCamera(CameraUpdate.newLatLngZoom(myLocation!, 14));
+    }
   }
 
   Future<void> getCurrentLocation() async {
@@ -33,11 +47,24 @@ class _TrackingScreenState extends State<TrackingScreen> {
         return;
       }
     }
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low);
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      setState(() {
+        myLocation = LatLng(position.latitude, position.longitude);
+      });
+      _moveToCurrentLocation();
+    } catch (e) {
+      print('Error obtaining current location: $e');
+    }
+  }
+
+  void _updateLocation(LatLng newLocation) {
     setState(() {
-      myLocation = LatLng(position.latitude, position.longitude);
+      myLocation = newLocation;
     });
+    _moveToCurrentLocation();
+    print('New Location: $newLocation');
   }
 
   @override
@@ -55,10 +82,23 @@ class _TrackingScreenState extends State<TrackingScreen> {
             onMapCreated: _onMapCreated,
             myLocationEnabled: true,
             myLocationButtonEnabled: true,
-            initialCameraPosition: CameraPosition(
-              target: myLocation,
+            initialCameraPosition: const CameraPosition(
+              target: LatLng(44.787197, 20.457273),
               zoom: 11.0,
             ),
+            onCameraMove: (CameraPosition position) {
+              //_updateLocation(position.target);
+            },
+            onCameraMoveStarted: () {
+              setState(() {
+                //_isCameraMoving = true;
+              });
+            },
+            onCameraIdle: () {
+              setState(() {
+                //_isCameraMoving = false;
+              });
+            },
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

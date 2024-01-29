@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:getgoing_flutter/domain/repository/gg_repository.dart';
+import 'package:getgoing_flutter/domain/repository/shared_preferences_manager.dart';
 import 'package:getgoing_flutter/widgets/get_going_seek_bar.dart';
+import '../domain/models/db_route.dart';
 
 class MyActivities extends StatefulWidget {
   const MyActivities({super.key});
@@ -10,6 +13,50 @@ class MyActivities extends StatefulWidget {
 }
 
 class _MyActivitiesState extends State<MyActivities> {
+  List<DbRoute>? allRoutes;
+  double _sumWalk = 0.0;
+  double _sumRun = 0.0;
+  double _sumRide = 0.0;
+
+  Future<List<DbRoute>> getAllDBRoutes() async {
+    return await GGRepository.instance.getAllDBRoutes();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getAllDBRoutes().then((listOfRoutes) => _fillProgressBars(listOfRoutes));
+  }
+
+  void _fillProgressBars(List<DbRoute> allRoutes) async {
+    int goal = await SharedPreferencesManager.getGoal();
+    _sumWalk = 0.0;
+    _sumRun = 0.0;
+    _sumRide = 0.0;
+
+    for (DbRoute route in allRoutes) {
+      if (route.activityId == 1) {
+        _sumWalk += route.length as double;
+      } else if (route.activityId == 2) {
+        _sumRun += route.length as double;
+      } else if (route.activityId == 3) {
+        _sumRide += route.length as double;
+      }
+    }
+
+    setState(() {
+      if (_sumWalk != 0) {
+        _sumWalk = _sumWalk / goal;
+      }
+      if (_sumRun != 0) {
+        _sumRun = _sumRun / goal;
+      }
+      if (_sumRide != 0) {
+        _sumRide = _sumRide / goal;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,20 +73,20 @@ class _MyActivitiesState extends State<MyActivities> {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Walking',
+                      const Text('Walking',
                           style: TextStyle(
                               color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
                               fontSize: 18.0)),
                       Row(
                         children: [
-                          Text('0 km',
-                              style: TextStyle(
+                          Text('${_sumWalk / 1000} km',
+                              style: const TextStyle(
                                   color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
                                   fontSize: 18.0)),
-                          Icon(
+                          const Icon(
                             Icons.arrow_forward_ios,
                             color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
                             size: 18.0,
@@ -53,26 +100,28 @@ class _MyActivitiesState extends State<MyActivities> {
                     height: 10.0,
                     child: LinearProgressIndicator(
                         borderRadius: BorderRadius.circular(10.0),
-                        value: 0.5, // Set the progress value (0.0 to 1.0)
-                        backgroundColor: Colors.white, // Set the background color
+                        value: _sumWalk,
+                        // Set the progress value (0.0 to 1.0)
+                        backgroundColor: Colors.white,
+                        // Set the background color
                         valueColor: const AlwaysStoppedAnimation<Color>(
                             Color.fromRGBO(0x20, 0xba, 0xff, 1.0))),
                   ),
                   const SizedBox(height: 20.0),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Running',
+                      const Text('Running',
                           style: TextStyle(
                               color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
                               fontSize: 18.0)),
                       Row(
                         children: [
-                          Text('0 km',
-                              style: TextStyle(
+                          Text('${_sumRun / 1000} km',
+                              style: const TextStyle(
                                   color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
                                   fontSize: 18.0)),
-                          Icon(
+                          const Icon(
                             Icons.arrow_forward_ios,
                             color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
                             size: 18.0,
@@ -86,26 +135,28 @@ class _MyActivitiesState extends State<MyActivities> {
                     height: 10.0,
                     child: LinearProgressIndicator(
                         borderRadius: BorderRadius.circular(10.0),
-                        value: 0.5, // Set the progress value (0.0 to 1.0)
-                        backgroundColor: Colors.white, // Set the background color
+                        value: _sumRun,
+                        // Set the progress value (0.0 to 1.0)
+                        backgroundColor: Colors.white,
+                        // Set the background color
                         valueColor: const AlwaysStoppedAnimation<Color>(
                             Color.fromRGBO(0x20, 0xba, 0xff, 1.0))),
                   ),
                   const SizedBox(height: 20.0),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Cycling',
+                      const Text('Cycling',
                           style: TextStyle(
                               color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
                               fontSize: 18.0)),
                       Row(
                         children: [
-                          Text('0 km',
-                              style: TextStyle(
+                          Text('${_sumRide / 1000} km',
+                              style: const TextStyle(
                                   color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
                                   fontSize: 18.0)),
-                          Icon(
+                          const Icon(
                             Icons.arrow_forward_ios,
                             color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
                             size: 18.0,
@@ -119,8 +170,10 @@ class _MyActivitiesState extends State<MyActivities> {
                     height: 10.0,
                     child: LinearProgressIndicator(
                         borderRadius: BorderRadius.circular(10.0),
-                        value: 0.5, // Set the progress value (0.0 to 1.0)
-                        backgroundColor: Colors.white, // Set the background color
+                        value: _sumRide,
+                        // Set the progress value (0.0 to 1.0)
+                        backgroundColor: Colors.white,
+                        // Set the background color
                         valueColor: const AlwaysStoppedAnimation<Color>(
                             Color.fromRGBO(0x20, 0xba, 0xff, 1.0))),
                   ),
