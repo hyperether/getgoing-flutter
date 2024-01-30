@@ -1,24 +1,20 @@
-import 'dart:ffi';
-
 class DbRoute {
-  final Long id;
-  final Long duration;
-  final Double energy;
-  final Double length;
+  int? id;
+  final int duration;
+  final double energy;
+  final double length;
   final String date;
-  final bool last;
-  final Double avgSpeed;
-  final Double currentSpeed;
+  final double avgSpeed;
+  final double currentSpeed;
   final int activityId;
-  final Long goal;
+  final int goal;
 
   DbRoute(
-      {required this.id,
+      {this.id,
       required this.duration,
       required this.energy,
       required this.length,
       required this.date,
-      required this.last,
       required this.avgSpeed,
       required this.currentSpeed,
       required this.activityId,
@@ -26,17 +22,15 @@ class DbRoute {
 
   factory DbRoute.fromJson(Map<String, dynamic> map) {
     return DbRoute(
-      id: map['id'],
       duration: map['duration'],
       energy: map['energy'],
       length: map['length'],
       date: map['date'],
-      last: map['last'] == 1,
       avgSpeed: map['avgSpeed'],
       currentSpeed: map['currentSpeed'],
       activityId: map['activityId'],
       goal: map['goal'],
-    );
+    )..id ??= map['id'] as int?;
   }
 
   Map<String, dynamic> toMap() {
@@ -46,11 +40,23 @@ class DbRoute {
       'energy': energy,
       'length': length,
       'date': date,
-      'last': last == true ? 1 : 0,
       'avgSpeed': avgSpeed,
       'currentSpeed': currentSpeed,
       'activityId': activityId,
       'goal': goal,
     };
+  }
+
+  @override
+  String toString() {
+    return 'DbRoute{id: $id, '
+        'duration: $duration, '
+        'energy: $energy, '
+        'length: $length, '
+        'date: $duration, '
+        'avgSpeed: $avgSpeed, '
+        'currentSpeed: $currentSpeed, '
+        'activityId: $activityId, '
+        'goal: $goal}';
   }
 }

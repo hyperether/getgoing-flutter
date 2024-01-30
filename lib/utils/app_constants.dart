@@ -14,6 +14,7 @@ class AppConst {
   static const String latitude = 'latitude';
   static const String longitude = 'longitude';
   static const String velocity = 'velocity';
+  static const String index = 'index';
   static const String number = 'number';
   static const String last = 'last';
   static const String routeId = 'routeId';
@@ -21,4 +22,8 @@ class AppConst {
   static const double avgSpeedWalk = 1.5;
   static const double avgSpeedRun = 2.5;
   static const double avgSpeedCycling = 5;
+
+  static const int lowDistance = 2500;
+  static const int mediumDistance = 5000;
+  static const int highDistance = 7500;
 }

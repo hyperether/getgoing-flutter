@@ -41,7 +41,7 @@ create table ${AppConst.dbNodeTable} (
     ${AppConst.latitude} REAL not null,
     ${AppConst.longitude} REAL not null,
     ${AppConst.velocity} REAL not null,
-    ${AppConst.number} integer not null,
+    ${AppConst.number} REAL not null,
     ${AppConst.last} integer not null,
     ${AppConst.routeId} integer not null)
 ''');
@@ -60,21 +60,23 @@ create table ${AppConst.dbRouteTable} (
 ''');
   }
 
-  Future<void> insertDbNode({required DbNode dbNode}) async {
+  Future<int> insertDbNode({required DbNode dbNode}) async {
     try {
-      final db = await database;
-      db.insert(AppConst.dbNodeTable, dbNode.toMap());
+      final db = await instance.database;
+      return await db.insert(AppConst.dbNodeTable, dbNode.toMap());
     } catch (e) {
       print(e.toString());
+      return 0;
     }
   }
 
-  Future<void> insertDbRoute({required DbRoute dbRoute}) async {
+  Future<int> insertDbRoute({required DbRoute dbRoute}) async {
     try {
-      final db = await database;
-      db.insert(AppConst.dbRouteTable, dbRoute.toMap());
+      final db = await instance.database;
+      return await db.insert(AppConst.dbRouteTable, dbRoute.toMap());
     } catch (e) {
       print(e.toString());
+      return 0;
     }
   }
 
@@ -86,7 +88,7 @@ create table ${AppConst.dbRouteTable} (
   }
 
   Future<List<DbRoute>> getAllDBRoutes() async {
-    final db = await instance.database;
+    final db = await database;
 
     final result = await db.query(AppConst.dbRouteTable);
     return result.map((json) => DbRoute.fromJson(json)).toList();
@@ -132,16 +134,17 @@ create table ${AppConst.dbRouteTable} (
     }
   }
 
-  Future<void> updateRoute(DbRoute dbRoute) async {
+  Future<int> updateRoute(DbRoute dbRoute) async {
     try {
       final db = await instance.database;
-      db.update(
-        AppConst.dbNodeTable,
+      return await db.update(
+        AppConst.dbRouteTable,
         dbRoute.toMap(),
         where: '${AppConst.id} = ?',
         whereArgs: [dbRoute.id],
       );
     } catch (e) {
+      return 0;
       print(e.toString());
     }
   }

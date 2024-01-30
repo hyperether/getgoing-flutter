@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:getgoing_flutter/domain/models/db_node.dart';
 import 'package:getgoing_flutter/domain/repository/gg_repository.dart';
 import 'package:getgoing_flutter/domain/repository/shared_preferences_manager.dart';
 import 'package:getgoing_flutter/widgets/get_going_seek_bar.dart';
@@ -17,43 +18,97 @@ class _MyActivitiesState extends State<MyActivities> {
   double _sumWalk = 0.0;
   double _sumRun = 0.0;
   double _sumRide = 0.0;
+  double walkPercentage = 0.0;
+  double runPercentage = 0.0;
+  double ridePercentage = 0.0;
+
+  Future<List<DbNode>> getAllDBNodes() async {
+    return await GGRepository.instance.getAllDbNodes();
+  }
 
   Future<List<DbRoute>> getAllDBRoutes() async {
     return await GGRepository.instance.getAllDBRoutes();
   }
 
+  // _insertNode() async {
+  //   DbNode node = DbNode(
+  //       latitude: 44.787197,
+  //       longitude: 20.457273,
+  //       velocity: 150.0,
+  //       number: 11,
+  //       last: false,
+  //       routeId: 1);
+  //   int insertedId = await GGRepository.instance.insertDbNode(dbNode: node);
+  //   print('Inserted ID: $insertedId');
+  // }
+
+  // _insertRoute() async {
+  //   DbRoute route = DbRoute(
+  //       duration: 100,
+  //       energy: 2.0,
+  //       length: 155.15,
+  //       date: "2024-01-25",
+  //       avgSpeed: 10.0,
+  //       currentSpeed: 15.0,
+  //       activityId: 3,
+  //       goal: 6000);
+  //   int insertedId = await GGRepository.instance.insertDbRoute(dbRoute: route);
+  //   print('Inserted ID: $insertedId');
+  // }
+
+  // _updateRoute() async {
+  //   DbRoute route = DbRoute(
+  //       id: 6,
+  //       duration: 100,
+  //       energy: 2.0,
+  //       length: 150.0,
+  //       date: "2024-01-25",
+  //       avgSpeed: 1.0,
+  //       currentSpeed: 5.0,
+  //       activityId: 1,
+  //       goal: 6000);
+  //   int updatedId = await GGRepository.instance.updateRoute(route);
+  //   print('Updated ID: $updatedId');
+  // }
+
   @override
   void initState() {
     super.initState();
+    //_updateRoute();
+    //_insertNode();
+    //_insertRoute();
+    //_getAllDBRoutes();
     getAllDBRoutes().then((listOfRoutes) => _fillProgressBars(listOfRoutes));
   }
 
   void _fillProgressBars(List<DbRoute> allRoutes) async {
     int goal = await SharedPreferencesManager.getGoal();
-    _sumWalk = 0.0;
-    _sumRun = 0.0;
-    _sumRide = 0.0;
 
     for (DbRoute route in allRoutes) {
+      print('Route: $route');
+
       if (route.activityId == 1) {
-        _sumWalk += route.length as double;
+        _sumWalk += route.length;
       } else if (route.activityId == 2) {
-        _sumRun += route.length as double;
+        _sumRun += route.length;
       } else if (route.activityId == 3) {
-        _sumRide += route.length as double;
+        _sumRide += route.length;
       }
     }
 
     setState(() {
       if (_sumWalk != 0) {
-        _sumWalk = _sumWalk / goal;
+        walkPercentage = double.parse((_sumWalk / goal).toStringAsFixed(2));
       }
       if (_sumRun != 0) {
-        _sumRun = _sumRun / goal;
+        runPercentage = double.parse((_sumRun / goal).toStringAsFixed(2));
       }
       if (_sumRide != 0) {
-        _sumRide = _sumRide / goal;
+        ridePercentage = double.parse((_sumRide / goal).toStringAsFixed(2));
       }
+      print('walkPercentage: $walkPercentage');
+      print('runPercentage: $runPercentage');
+      print('ridePercentage: $ridePercentage');
     });
   }
 
@@ -100,7 +155,7 @@ class _MyActivitiesState extends State<MyActivities> {
                     height: 10.0,
                     child: LinearProgressIndicator(
                         borderRadius: BorderRadius.circular(10.0),
-                        value: _sumWalk,
+                        value: walkPercentage,
                         // Set the progress value (0.0 to 1.0)
                         backgroundColor: Colors.white,
                         // Set the background color
@@ -135,7 +190,7 @@ class _MyActivitiesState extends State<MyActivities> {
                     height: 10.0,
                     child: LinearProgressIndicator(
                         borderRadius: BorderRadius.circular(10.0),
-                        value: _sumRun,
+                        value: runPercentage,
                         // Set the progress value (0.0 to 1.0)
                         backgroundColor: Colors.white,
                         // Set the background color
@@ -170,7 +225,7 @@ class _MyActivitiesState extends State<MyActivities> {
                     height: 10.0,
                     child: LinearProgressIndicator(
                         borderRadius: BorderRadius.circular(10.0),
-                        value: _sumRide,
+                        value: ridePercentage,
                         // Set the progress value (0.0 to 1.0)
                         backgroundColor: Colors.white,
                         // Set the background color

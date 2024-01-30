@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:getgoing_flutter/domain/repository/shared_preferences_manager.dart';
+import 'package:getgoing_flutter/utils/app_constants.dart';
+import 'package:getgoing_flutter/widgets/gg_alert_dialog.dart';
 import '../utils/utility_functions.dart';
 
 class GetGoingSeekBar extends StatefulWidget {
@@ -36,6 +38,25 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
     });
   }
 
+  Future<void> _showAlertDialog(BuildContext context, int goal) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return GGAlertDialog(
+          callback: (int goal) {
+            setState(() {
+              _value = goal.toDouble();
+              _valueInt = goal;
+              _timeEstimates = getTimeEstimates(_value);
+              int cal = (_valueInt * 0.00112 * _weight).toInt();
+              _cal = cal;
+            });
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -59,6 +80,7 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
           padding: const EdgeInsets.fromLTRB(32.0, 0.0, 32.0, 0.0),
           child: Slider(
               value: _value,
+              //divisions: 10,
               onChanged: (double newValue) {
                 setState(() {
                   _value = newValue;
@@ -74,30 +96,68 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
         ),
         const SizedBox(height: 10.0),
         Padding(
-          padding: EdgeInsets.fromLTRB(64.0, 0.0, 64.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(64.0, 0.0, 64.0, 0.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('LOW',
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: (_valueInt >= 0 && _valueInt <= 3333)
-                          ? Color.fromRGBO(0x20, 0xba, 0xff, 1.0)
-                          : Color.fromRGBO(0x47, 0x47, 0x47, 1.0))),
-              Text('|'),
-              Text('MEDIUM',
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: (_valueInt > 3333 && _valueInt <= 6666)
-                          ? Color.fromRGBO(0x20, 0xba, 0xff, 1.0)
-                          : Color.fromRGBO(0x47, 0x47, 0x47, 1.0))),
-              Text('|'),
-              Text('HIGH',
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: (_valueInt > 6666 && _valueInt <= 10000)
-                          ? Color.fromRGBO(0x20, 0xba, 0xff, 1.0)
-                          : Color.fromRGBO(0x47, 0x47, 0x47, 1.0)))
+              InkWell(
+                child: Text('LOW',
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        color: (_valueInt >= 0 && _valueInt <= 3333)
+                            ? const Color.fromRGBO(0x20, 0xba, 0xff, 1.0)
+                            : const Color.fromRGBO(0x47, 0x47, 0x47, 1.0))),
+                onTap: () {
+                  setState(() {
+                    _value = AppConst.lowDistance.toDouble();
+                    _valueInt = AppConst.lowDistance;
+                    _timeEstimates =
+                        getTimeEstimates(AppConst.lowDistance.toDouble());
+                    _cal = (AppConst.lowDistance.toDouble() * 0.00112 * _weight)
+                        .toInt();
+                  });
+                },
+              ),
+              const Text('|'),
+              InkWell(
+                child: Text('MEDIUM',
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        color: (_valueInt > 3333 && _valueInt <= 6666)
+                            ? const Color.fromRGBO(0x20, 0xba, 0xff, 1.0)
+                            : const Color.fromRGBO(0x47, 0x47, 0x47, 1.0))),
+                onTap: () {
+                  setState(() {
+                    _value = AppConst.mediumDistance.toDouble();
+                    _valueInt = AppConst.mediumDistance;
+                    _timeEstimates =
+                        getTimeEstimates(AppConst.mediumDistance.toDouble());
+                    _cal =
+                        (AppConst.mediumDistance.toDouble() * 0.00112 * _weight)
+                            .toInt();
+                  });
+                },
+              ),
+              const Text('|'),
+              InkWell(
+                child: Text('HIGH',
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        color: (_valueInt > 6666 && _valueInt <= 10000)
+                            ? const Color.fromRGBO(0x20, 0xba, 0xff, 1.0)
+                            : const Color.fromRGBO(0x47, 0x47, 0x47, 1.0))),
+                onTap: () {
+                  setState(() {
+                    _value = AppConst.highDistance.toDouble();
+                    _valueInt = AppConst.highDistance;
+                    _timeEstimates =
+                        getTimeEstimates(AppConst.highDistance.toDouble());
+                    _cal =
+                        (AppConst.highDistance.toDouble() * 0.00112 * _weight)
+                            .toInt();
+                  });
+                },
+              )
             ],
           ),
         ),
@@ -107,7 +167,8 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
           children: [
             const Icon(Icons.directions_walk,
                 color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0), size: 32.0),
-            Text('${_timeEstimates?[0]}', style: TextStyle(fontSize: 16.0)),
+            Text('${_timeEstimates?[0]}',
+                style: const TextStyle(fontSize: 16.0)),
             const SizedBox(width: 4.0),
             const Text('min', style: TextStyle(fontSize: 16.0)),
             const SizedBox(width: 10.0),
@@ -115,7 +176,8 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
             const SizedBox(width: 10.0),
             const Icon(Icons.directions_run,
                 color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0), size: 32.0),
-            Text('${_timeEstimates?[1]}', style: TextStyle(fontSize: 16.0)),
+            Text('${_timeEstimates?[1]}',
+                style: const TextStyle(fontSize: 16.0)),
             const SizedBox(width: 4.0),
             const Text('min', style: TextStyle(fontSize: 16.0)),
             const SizedBox(width: 10.0),
@@ -135,7 +197,15 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
         ),
         const SizedBox(height: 36.0),
         ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              if (_value == 0.0) {
+                _showAlertDialog(context, _valueInt);
+              } else {
+                SharedPreferencesManager.setGoal(_valueInt);
+                showToast('Your goal is updated');
+                Navigator.of(context).pop();
+              }
+            },
             style: ElevatedButton.styleFrom(
                 fixedSize: const Size(160.0, 40.0),
                 foregroundColor: const Color.fromRGBO(0x6b, 0xd1, 0xff, 1.0),
