@@ -11,7 +11,7 @@ class GGAlertDialog extends StatefulWidget {
 }
 
 class _GGAlertDialogState extends State<GGAlertDialog> {
-  int _editedValue = 0;
+  int _editedGoal = 0;
 
   @override
   void initState() {
@@ -22,7 +22,7 @@ class _GGAlertDialogState extends State<GGAlertDialog> {
   _getGoal() async {
     int goal = await SharedPreferencesManager.getGoal();
     setState(() {
-      _editedValue = goal;
+      _editedGoal = goal;
     });
   }
 
@@ -50,7 +50,7 @@ class _GGAlertDialogState extends State<GGAlertDialog> {
         TextButton(
           onPressed: () {
             setState(() {
-              widget.callback(_editedValue);
+              widget.callback(_editedGoal);
             });
             Navigator.of(context).pop();
           },

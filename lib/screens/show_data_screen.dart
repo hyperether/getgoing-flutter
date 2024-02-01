@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ShowDataScreen extends StatefulWidget {
-  const ShowDataScreen({super.key});
+  final String data;
+
+  const ShowDataScreen({required this.data, super.key});
 
   @override
   State<ShowDataScreen> createState() => _ShowDataScreenState();

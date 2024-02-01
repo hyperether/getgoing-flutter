@@ -21,6 +21,7 @@ class _MyActivitiesState extends State<MyActivities> {
   double walkPercentage = 0.0;
   double runPercentage = 0.0;
   double ridePercentage = 0.0;
+  bool _doesRouteExisting = false;
 
   Future<List<DbNode>> getAllDBNodes() async {
     return await GGRepository.instance.getAllDbNodes();
@@ -28,6 +29,14 @@ class _MyActivitiesState extends State<MyActivities> {
 
   Future<List<DbRoute>> getAllDBRoutes() async {
     return await GGRepository.instance.getAllDBRoutes();
+  }
+
+  _doesWalkRouteExist() async {
+    bool doesRouteExisting =
+        await SharedPreferencesManager.doesWalkRouteExist();
+    setState(() {
+      _doesRouteExisting = doesRouteExisting;
+    });
   }
 
   // _insertNode() async {
@@ -78,6 +87,7 @@ class _MyActivitiesState extends State<MyActivities> {
     //_insertNode();
     //_insertRoute();
     //_getAllDBRoutes();
+    _doesWalkRouteExist();
     getAllDBRoutes().then((listOfRoutes) => _fillProgressBars(listOfRoutes));
   }
 
@@ -135,18 +145,27 @@ class _MyActivitiesState extends State<MyActivities> {
                           style: TextStyle(
                               color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
                               fontSize: 18.0)),
-                      Row(
-                        children: [
-                          Text('${_sumWalk / 1000} km',
-                              style: const TextStyle(
-                                  color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
-                                  fontSize: 18.0)),
-                          const Icon(
-                            Icons.arrow_forward_ios,
-                            color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
-                            size: 18.0,
-                          )
-                        ],
+                      InkWell(
+                        onTap: () async {
+                          if (!_doesRouteExisting) {
+                            await Navigator.pushNamed(context, '/showData',
+                                arguments: 'Walking');
+                          }
+                        },
+                        child: Row(
+                          children: [
+                            Text('${_sumWalk / 1000} km',
+                                style: const TextStyle(
+                                    color:
+                                        Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
+                                    fontSize: 18.0)),
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
+                              size: 18.0,
+                            )
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -170,18 +189,27 @@ class _MyActivitiesState extends State<MyActivities> {
                           style: TextStyle(
                               color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
                               fontSize: 18.0)),
-                      Row(
-                        children: [
-                          Text('${_sumRun / 1000} km',
-                              style: const TextStyle(
-                                  color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
-                                  fontSize: 18.0)),
-                          const Icon(
-                            Icons.arrow_forward_ios,
-                            color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
-                            size: 18.0,
-                          )
-                        ],
+                      InkWell(
+                        onTap: () async {
+                          if (!_doesRouteExisting) {
+                            await Navigator.pushNamed(context, '/showData',
+                                arguments: 'Running');
+                          }
+                        },
+                        child: Row(
+                          children: [
+                            Text('${_sumRun / 1000} km',
+                                style: const TextStyle(
+                                    color:
+                                        Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
+                                    fontSize: 18.0)),
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
+                              size: 18.0,
+                            )
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -205,18 +233,27 @@ class _MyActivitiesState extends State<MyActivities> {
                           style: TextStyle(
                               color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
                               fontSize: 18.0)),
-                      Row(
-                        children: [
-                          Text('${_sumRide / 1000} km',
-                              style: const TextStyle(
-                                  color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
-                                  fontSize: 18.0)),
-                          const Icon(
-                            Icons.arrow_forward_ios,
-                            color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
-                            size: 18.0,
-                          )
-                        ],
+                      InkWell(
+                        onTap: () async {
+                          if (!_doesRouteExisting) {
+                            await Navigator.pushNamed(context, '/showData',
+                                arguments: 'Cycling');
+                          }
+                        },
+                        child: Row(
+                          children: [
+                            Text('${_sumRide / 1000} km',
+                                style: const TextStyle(
+                                    color:
+                                        Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
+                                    fontSize: 18.0)),
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0),
+                              size: 18.0,
+                            )
+                          ],
+                        ),
                       ),
                     ],
                   ),

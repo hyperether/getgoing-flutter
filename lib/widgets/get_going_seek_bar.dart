@@ -13,11 +13,12 @@ class GetGoingSeekBar extends StatefulWidget {
 }
 
 class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
-  double _value = 0.0;
-  int _valueInt = 0;
+  double _goal = 0.0;
+  int _goalInt = 0;
   int _cal = 0;
   int _weight = 0;
   List<int>? _timeEstimates;
+
 
   @override
   void initState() {
@@ -29,10 +30,10 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
     int value = await SharedPreferencesManager.getGoal();
     int weight = await SharedPreferencesManager.getWeight();
     setState(() {
-      _value = value.toDouble();
-      _valueInt = value;
-      _timeEstimates = getTimeEstimates(_value);
-      int cal = (_valueInt * 0.00112 * weight).toInt();
+      _goal = value.toDouble();
+      _goalInt = value;
+      _timeEstimates = getTimeEstimates(_goal);
+      int cal = (_goalInt * 0.00112 * weight).toInt();
       _cal = cal;
       _weight = weight;
     });
@@ -45,10 +46,10 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
         return GGAlertDialog(
           callback: (int goal) {
             setState(() {
-              _value = goal.toDouble();
-              _valueInt = goal;
-              _timeEstimates = getTimeEstimates(_value);
-              int cal = (_valueInt * 0.00112 * _weight).toInt();
+              _goal = goal.toDouble();
+              _goalInt = goal;
+              _timeEstimates = getTimeEstimates(_goal);
+              int cal = (_goalInt * 0.00112 * _weight).toInt();
               _cal = cal;
             });
           },
@@ -62,7 +63,7 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
     return Column(
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          Text('${_value.toInt()}',
+          Text('${_goal.toInt()}',
               style: const TextStyle(
                   fontSize: 22.0,
                   fontWeight: FontWeight.bold,
@@ -79,12 +80,12 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
         Padding(
           padding: const EdgeInsets.fromLTRB(32.0, 0.0, 32.0, 0.0),
           child: Slider(
-              value: _value,
+              value: _goal,
               //divisions: 10,
               onChanged: (double newValue) {
                 setState(() {
-                  _value = newValue;
-                  _valueInt = newValue.toInt();
+                  _goal = newValue;
+                  _goalInt = newValue.toInt();
                   _timeEstimates = getTimeEstimates(newValue);
                   _cal = (newValue * 0.00112 * _weight).toInt();
                 });
@@ -104,13 +105,13 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
                 child: Text('LOW',
                     style: TextStyle(
                         fontSize: 16.0,
-                        color: (_valueInt >= 0 && _valueInt <= 3333)
+                        color: (_goalInt >= 0 && _goalInt <= 3333)
                             ? const Color.fromRGBO(0x20, 0xba, 0xff, 1.0)
                             : const Color.fromRGBO(0x47, 0x47, 0x47, 1.0))),
                 onTap: () {
                   setState(() {
-                    _value = AppConst.lowDistance.toDouble();
-                    _valueInt = AppConst.lowDistance;
+                    _goal = AppConst.lowDistance.toDouble();
+                    _goalInt = AppConst.lowDistance;
                     _timeEstimates =
                         getTimeEstimates(AppConst.lowDistance.toDouble());
                     _cal = (AppConst.lowDistance.toDouble() * 0.00112 * _weight)
@@ -123,13 +124,13 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
                 child: Text('MEDIUM',
                     style: TextStyle(
                         fontSize: 16.0,
-                        color: (_valueInt > 3333 && _valueInt <= 6666)
+                        color: (_goalInt > 3333 && _goalInt <= 6666)
                             ? const Color.fromRGBO(0x20, 0xba, 0xff, 1.0)
                             : const Color.fromRGBO(0x47, 0x47, 0x47, 1.0))),
                 onTap: () {
                   setState(() {
-                    _value = AppConst.mediumDistance.toDouble();
-                    _valueInt = AppConst.mediumDistance;
+                    _goal = AppConst.mediumDistance.toDouble();
+                    _goalInt = AppConst.mediumDistance;
                     _timeEstimates =
                         getTimeEstimates(AppConst.mediumDistance.toDouble());
                     _cal =
@@ -143,13 +144,13 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
                 child: Text('HIGH',
                     style: TextStyle(
                         fontSize: 16.0,
-                        color: (_valueInt > 6666 && _valueInt <= 10000)
+                        color: (_goalInt > 6666 && _goalInt <= 10000)
                             ? const Color.fromRGBO(0x20, 0xba, 0xff, 1.0)
                             : const Color.fromRGBO(0x47, 0x47, 0x47, 1.0))),
                 onTap: () {
                   setState(() {
-                    _value = AppConst.highDistance.toDouble();
-                    _valueInt = AppConst.highDistance;
+                    _goal = AppConst.highDistance.toDouble();
+                    _goalInt = AppConst.highDistance;
                     _timeEstimates =
                         getTimeEstimates(AppConst.highDistance.toDouble());
                     _cal =
@@ -198,10 +199,10 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
         const SizedBox(height: 36.0),
         ElevatedButton(
             onPressed: () {
-              if (_value == 0.0) {
-                _showAlertDialog(context, _valueInt);
+              if (_goal == 0.0) {
+                _showAlertDialog(context, _goalInt);
               } else {
-                SharedPreferencesManager.setGoal(_valueInt);
+                SharedPreferencesManager.setGoal(_goalInt);
                 showToast('Your goal is updated');
                 Navigator.of(context).pop();
               }

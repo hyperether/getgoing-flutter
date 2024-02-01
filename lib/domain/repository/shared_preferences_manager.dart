@@ -6,6 +6,7 @@ class SharedPreferencesManager {
   static const String _age = 'age';
   static const String _goal = 'goal';
   static const String _weight = 'weight';
+  static const String _walkRouteExist = 'walkRouteExist';
 
   static Future<void> saveValue(String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -57,8 +58,13 @@ class SharedPreferencesManager {
     return prefs.getInt(_weight) ?? 80;
   }
 
-  static Future<void> setWeight(int value) async {
+  static Future<void> setWalkRouteExisting(bool walk) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_weight, value);
+    await prefs.setBool(_walkRouteExist, walk);
+  }
+
+  static Future<bool> doesWalkRouteExist() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_walkRouteExist) ?? false;
   }
 }
