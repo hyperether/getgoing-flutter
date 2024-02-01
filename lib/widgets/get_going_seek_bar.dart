@@ -19,7 +19,6 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
   int _weight = 0;
   List<int>? _timeEstimates;
 
-
   @override
   void initState() {
     super.initState();
@@ -170,26 +169,26 @@ class _GetGoingSeekBarState extends State<GetGoingSeekBar> {
                 color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0), size: 32.0),
             Text('${_timeEstimates?[0]}',
                 style: const TextStyle(fontSize: 16.0)),
-            const SizedBox(width: 4.0),
+            const SizedBox(width: 2.0),
             const Text('min', style: TextStyle(fontSize: 16.0)),
-            const SizedBox(width: 10.0),
+            const SizedBox(width: 8.0),
             const Text('or', style: TextStyle(fontSize: 16.0)),
-            const SizedBox(width: 10.0),
+            const SizedBox(width: 8.0),
             const Icon(Icons.directions_run,
                 color: Color.fromRGBO(0x47, 0x47, 0x47, 1.0), size: 32.0),
             Text('${_timeEstimates?[1]}',
                 style: const TextStyle(fontSize: 16.0)),
-            const SizedBox(width: 4.0),
+            const SizedBox(width: 2.0),
             const Text('min', style: TextStyle(fontSize: 16.0)),
-            const SizedBox(width: 10.0),
+            const SizedBox(width: 8.0),
             const Text('or', style: TextStyle(fontSize: 16.0)),
-            const SizedBox(width: 10.0),
+            const SizedBox(width: 8.0),
             SvgPicture.asset(
               'assets/ic_cycling_light.svg',
               width: 28.0,
               height: 28.0,
             ),
-            const SizedBox(width: 4.0),
+            const SizedBox(width: 2.0),
             Text('${_timeEstimates?[2]}',
                 style: const TextStyle(fontSize: 16.0)),
             const SizedBox(width: 4.0),

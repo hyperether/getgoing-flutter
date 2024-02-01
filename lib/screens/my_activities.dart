@@ -39,54 +39,9 @@ class _MyActivitiesState extends State<MyActivities> {
     });
   }
 
-  // _insertNode() async {
-  //   DbNode node = DbNode(
-  //       latitude: 44.787197,
-  //       longitude: 20.457273,
-  //       velocity: 150.0,
-  //       number: 11,
-  //       last: false,
-  //       routeId: 1);
-  //   int insertedId = await GGRepository.instance.insertDbNode(dbNode: node);
-  //   print('Inserted ID: $insertedId');
-  // }
-
-  // _insertRoute() async {
-  //   DbRoute route = DbRoute(
-  //       duration: 100,
-  //       energy: 2.0,
-  //       length: 155.15,
-  //       date: "2024-01-25",
-  //       avgSpeed: 10.0,
-  //       currentSpeed: 15.0,
-  //       activityId: 3,
-  //       goal: 6000);
-  //   int insertedId = await GGRepository.instance.insertDbRoute(dbRoute: route);
-  //   print('Inserted ID: $insertedId');
-  // }
-
-  // _updateRoute() async {
-  //   DbRoute route = DbRoute(
-  //       id: 6,
-  //       duration: 100,
-  //       energy: 2.0,
-  //       length: 150.0,
-  //       date: "2024-01-25",
-  //       avgSpeed: 1.0,
-  //       currentSpeed: 5.0,
-  //       activityId: 1,
-  //       goal: 6000);
-  //   int updatedId = await GGRepository.instance.updateRoute(route);
-  //   print('Updated ID: $updatedId');
-  // }
-
   @override
   void initState() {
     super.initState();
-    //_updateRoute();
-    //_insertNode();
-    //_insertRoute();
-    //_getAllDBRoutes();
     _doesWalkRouteExist();
     getAllDBRoutes().then((listOfRoutes) => _fillProgressBars(listOfRoutes));
   }
