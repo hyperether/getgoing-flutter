@@ -14,7 +14,6 @@ class GetGoingMain extends StatefulWidget {
 class _GetGoingMainState extends State<GetGoingMain> {
   var exerciseList = ["Running", "Cycling", "Walking"];
 
-
   Future<String> getDbPath() async {
     Future<String> result = GGRepository.instance.getDatabasePath();
     await result;
@@ -124,10 +123,12 @@ class _GetGoingMainState extends State<GetGoingMain> {
                                   ),
                                   const Text('50%',
                                       style: TextStyle(
-                                          fontSize: 16.0, color: Colors.white)),
+                                          fontSize: 16.0,
+                                          color: Colors.white)),
                                   const Text('Running',
                                       style: TextStyle(
-                                          fontSize: 14.0, color: Colors.white))
+                                          fontSize: 14.0,
+                                          color: Colors.white))
                                 ],
                               ),
                             ),
@@ -156,10 +157,12 @@ class _GetGoingMainState extends State<GetGoingMain> {
                                   ),
                                   const Text('25%',
                                       style: TextStyle(
-                                          fontSize: 16.0, color: Colors.white)),
+                                          fontSize: 16.0,
+                                          color: Colors.white)),
                                   const Text('min',
                                       style: TextStyle(
-                                          fontSize: 14.0, color: Colors.white))
+                                          fontSize: 14.0,
+                                          color: Colors.white))
                                 ],
                               ),
                             ),
@@ -186,7 +189,8 @@ class _GetGoingMainState extends State<GetGoingMain> {
                               )),
                           const Text('Can we burn our legs?',
                               style: TextStyle(
-                                  color: Color.fromRGBO(0x20, 0xba, 0xFF, 1.0),
+                                  color:
+                                      Color.fromRGBO(0x20, 0xba, 0xFF, 1.0),
                                   fontSize: 16.0))
                         ]),
                   ],

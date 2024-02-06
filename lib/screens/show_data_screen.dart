@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import '../domain/models/db_route.dart';
+import '../domain/repository/gg_repository.dart';
 import '../widgets/dashed_divider.dart';
 
 class ShowDataScreen extends StatefulWidget {
@@ -14,12 +16,45 @@ class ShowDataScreen extends StatefulWidget {
 }
 
 class _ShowDataScreenState extends State<ShowDataScreen> {
-  String? _activityId = null;
+  String? _activityType;
+  int? _activityId;
+
+  List<DbRoute> routes = [];
 
   @override
   void initState() {
     super.initState();
-    _activityId = widget.data;
+    _getAllDBRoutes();
+    _activityType = widget.data;
+    _getActivityIdFromType(_activityType);
+  }
+
+  _getActivityIdFromType(String? type) {
+    if (type == 'Walking') {
+      _activityId = 0;
+    } else if (type == 'Running') {
+      _activityId = 1;
+    } else if (type == 'Cycling') {
+      _activityId = 2;
+    }
+  }
+
+  _getAllDBRoutes() async {
+    List<DbRoute> listOfRoutes = await GGRepository.instance.getAllDBRoutes();
+    setState(() {
+      routes = listOfRoutes;
+    });
+  }
+
+  calculateRoutes() {
+    if (routes.isNotEmpty) {
+      //routes.removeAt(0);
+      for (var route in routes) {
+        if (route.activityId == _activityId) {
+          routes.add(route);
+        }
+      }
+    }
   }
 
   @override
@@ -41,7 +76,7 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
       backgroundColor: const Color.fromRGBO(0xf0, 0xf4, 0xf7, 1.0),
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(0xf0, 0xf4, 0xf7, 1.0),
-        title: Text(_activityId ?? ""),
+        title: Text(_activityType ?? ""),
         elevation: 0,
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.delete))],
       ),
