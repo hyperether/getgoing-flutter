@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:getgoing_flutter/data/providers/route_provider.dart';
 import 'package:getgoing_flutter/widgets/get_going_seek_bar.dart';
 import 'package:provider/provider.dart';
 import '../../models/db_route.dart';
+import '../data/cubit/route_cubit.dart';
 import '../utils/utility_functions.dart';
 
 class MyActivities extends StatefulWidget {
@@ -16,6 +18,7 @@ class MyActivities extends StatefulWidget {
 class _MyActivitiesState extends State<MyActivities> {
   @override
   Widget build(BuildContext context) {
+    final routeCubit = BlocProvider.of<RouteCubit>(context);
     return Scaffold(
       backgroundColor: const Color.fromRGBO(0xf0, 0xf4, 0xf7, 1.0),
       appBar: AppBar(
@@ -54,6 +57,7 @@ class _MyActivitiesState extends State<MyActivities> {
                                     onTap: () async {
                                       if (!routes.doesRouteExist) {
                                         routes.setActivityType('Walking');
+                                        routeCubit.setActivityType('Walking');
                                         await Navigator.pushNamed(
                                             context, '/showData');
                                       } else {
@@ -107,6 +111,7 @@ class _MyActivitiesState extends State<MyActivities> {
                                     onTap: () async {
                                       if (!routes.doesRouteExist) {
                                         routes.setActivityType('Running');
+                                        routeCubit.setActivityType('Running');
                                         await Navigator.pushNamed(
                                             context, '/showData');
                                       } else {
@@ -160,6 +165,7 @@ class _MyActivitiesState extends State<MyActivities> {
                                     onTap: () async {
                                       if (!routes.doesRouteExist) {
                                         routes.setActivityType('Cycling');
+                                        routeCubit.setActivityType('Cycling');
                                         await Navigator.pushNamed(
                                             context, '/showData');
                                       } else {

@@ -3,7 +3,6 @@ import '../../models/db_route.dart';
 import 'package:getgoing_flutter/data/repository/gg_repository.dart';
 import '../repository/shared_preferences_manager.dart';
 
-
 class RouteCubit extends Cubit<DbRoute> {
   final GGRepository repository = GGRepository.instance;
   List<DbRoute> routes = List.empty();
@@ -15,6 +14,9 @@ class RouteCubit extends Cubit<DbRoute> {
   double runPercentage = 0.0;
   double ridePercentage = 0.0;
   bool doesRouteExist = false;
+  String activityType = "";
+  String percentageByType = "";
+  double percentageByTypeInDouble = 0.0;
 
   RouteCubit() : super(DbRoute.empty());
 
@@ -64,6 +66,23 @@ class RouteCubit extends Cubit<DbRoute> {
     }
     if (sumRide != 0) {
       ridePercentage = double.parse((sumRide / goal).toStringAsFixed(2));
+    }
+  }
+
+  void setActivityType(String type) {
+    activityType = type;
+  }
+
+  calculatePercentageByType() {
+    if (activityType == 'Walking') {
+      percentageByType = '${(walkPercentage * 100).round()}%';
+      percentageByTypeInDouble = walkPercentage;
+    } else if (activityType == 'Running') {
+      percentageByType = '${(runPercentage * 100).round()}%';
+      percentageByTypeInDouble = runPercentage;
+    } else if (activityType == 'Cycling') {
+      percentageByType = '${(ridePercentage * 100).round()}%';
+      percentageByTypeInDouble = ridePercentage;
     }
   }
 }

@@ -16,23 +16,16 @@ class ShowDataScreen extends StatefulWidget {
 }
 
 class _ShowDataScreenState extends State<ShowDataScreen> {
-  final routeCubit = RouteCubit();
-  List<DbRoute> routes = [];
-
-  @override
-  void initState() {
-    super.initState();
-    routeCubit.getRoutes();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final routeCubit = BlocProvider.of<RouteCubit>(context);
+    routeCubit.getRoutes();
     return Consumer<RouteProvider>(builder: (context, routes, child) {
       return Scaffold(
           backgroundColor: const Color.fromRGBO(0xf0, 0xf4, 0xf7, 1.0),
           appBar: AppBar(
             backgroundColor: const Color.fromRGBO(0xf0, 0xf4, 0xf7, 1.0),
-            title: Text(routes.activityType ?? ""),
+            title: Text(routes.activityType),
             elevation: 0,
             actions: [
               IconButton(onPressed: () {}, icon: const Icon(Icons.delete))
@@ -51,6 +44,8 @@ class RouteList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    routeCubit.calculatePercentageByType();
+
     return BlocBuilder<RouteCubit, DbRoute>(
       bloc: routeCubit,
       builder: (context, route) {
@@ -64,9 +59,10 @@ class RouteList extends StatelessWidget {
                   child: CircularPercentIndicator(
                     radius: 150.0,
                     lineWidth: 12.0,
-                    percent: 0.7,
-                    center: Text('69%',
-                      style: TextStyle(fontSize: 20.0),
+                    percent: routeCubit.percentageByTypeInDouble,
+                    center: Text(
+                      routeCubit.percentageByType,
+                      style: const TextStyle(fontSize: 20.0),
                     ),
                     arcType: ArcType.HALF,
                     progressColor: Colors.blue[700],
@@ -74,7 +70,7 @@ class RouteList extends StatelessWidget {
                     circularStrokeCap: CircularStrokeCap.round,
                   ),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
               ],
             ),
             Row(
@@ -82,40 +78,40 @@ class RouteList extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    Text('Calories'),
-                    SizedBox(height: 8.0),
+                    const Text('Calories'),
+                    const SizedBox(height: 8.0),
                     Text('${route.energy}',
                         style: const TextStyle(
                             fontSize: 24.0, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 8.0),
-                    Text('kcal'),
+                    const SizedBox(height: 8.0),
+                    const Text('kcal'),
                   ],
                 ),
                 Column(
                   children: [
-                    Text('Distance'),
-                    SizedBox(height: 8.0),
+                    const Text('Distance'),
+                    const SizedBox(height: 8.0),
                     Text('${route.length}',
                         style: const TextStyle(
                             fontSize: 24.0, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 8.0),
-                    Text('km'),
+                    const SizedBox(height: 8.0),
+                    const Text('km'),
                   ],
                 ),
                 Column(
                   children: [
-                    Text('Speed'),
-                    SizedBox(height: 8.0),
+                    const Text('Speed'),
+                    const SizedBox(height: 8.0),
                     Text('${route.avgSpeed}',
                         style: const TextStyle(
                             fontSize: 24.0, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 8.0),
-                    Text('m/s'),
+                    const SizedBox(height: 8.0),
+                    const Text('m/s'),
                   ],
                 ),
               ],
             ),
-            SizedBox(height: 32.0),
+            const SizedBox(height: 32.0),
             Container(
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -126,27 +122,27 @@ class RouteList extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   SvgPicture.asset(
                     'assets/ic_arrow_up.svg',
                     width: 24.0,
                     height: 20.0,
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Goal  '),
-                        DashedDivider(),
-                        Text('  2.3 km'),
+                        const Text('Goal  '),
+                        const DashedDivider(),
+                        Text('  ${route.goal} km'),
                       ],
                     ),
                   ),
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: routeCubit.routes.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
