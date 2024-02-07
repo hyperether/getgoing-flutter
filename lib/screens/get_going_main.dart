@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../data/repository/gg_repository.dart';
+import '../models/db_route.dart';
 import '../widgets/centered_horizontal_list_view.dart';
 
 class GetGoingMain extends StatefulWidget {
@@ -18,6 +19,20 @@ class _GetGoingMainState extends State<GetGoingMain> {
     Future<String> result = GGRepository.instance.getDatabasePath();
     await result;
     return result;
+  }
+
+  _insertRoute() async {
+    DbRoute route = DbRoute(
+        duration: 100,
+        energy: 2.0,
+        length: 155.15,
+        date: "2024-01-27",
+        avgSpeed: 22.0,
+        currentSpeed: 15.0,
+        activityId: 3,
+        goal: 7000);
+    int insertedId = await GGRepository.instance.insertDbRoute(dbRoute: route);
+    print('Inserted ID: $insertedId');
   }
 
   @override
@@ -233,6 +248,7 @@ class _GetGoingMainState extends State<GetGoingMain> {
   @override
   void initState() {
     initDb();
+    //_insertRoute();
     getDbPath().then((result) {
       print('Data: $result');
     }).catchError((error) {

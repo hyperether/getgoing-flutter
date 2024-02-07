@@ -6,6 +6,7 @@ import '../repository/shared_preferences_manager.dart';
 class RouteCubit extends Cubit<DbRoute> {
   final GGRepository repository = GGRepository.instance;
   List<DbRoute> routes = List.empty();
+  List<DbRoute> routesByActivityId = List.empty();
   DbRoute dbRoute = DbRoute.empty();
   double sumWalk = 0.0;
   double sumRun = 0.0;
@@ -23,8 +24,10 @@ class RouteCubit extends Cubit<DbRoute> {
   Future<void> getRoutes() async {
     try {
       routes = await repository.getAllDBRoutes();
-      calculateLastRoute(routes);
-      fillProgressBars(routes);
+      await _calculateLastRoute(routes);
+      await _fillProgressBars(routes);
+      await _calculatePercentageByType();
+      await _filterRoutesByActivityId(routes, _getActivityType());
       emit(dbRoute);
     } catch (e) {
       print('Exception $e');
@@ -32,15 +35,14 @@ class RouteCubit extends Cubit<DbRoute> {
     }
   }
 
-  DbRoute calculateLastRoute(List<DbRoute> allRoutes) {
+  _calculateLastRoute(List<DbRoute> allRoutes) async {
     dbRoute = DbRoute.empty();
     if (allRoutes.isNotEmpty) {
       dbRoute = allRoutes.last;
     }
-    return dbRoute;
   }
 
-  void fillProgressBars(List<DbRoute> allRoutes) async {
+  _fillProgressBars(List<DbRoute> allRoutes) async {
     int goal = await SharedPreferencesManager.getGoal();
     sumWalk = 0.0;
     sumRun = 0.0;
@@ -73,7 +75,11 @@ class RouteCubit extends Cubit<DbRoute> {
     activityType = type;
   }
 
-  calculatePercentageByType() {
+  String _getActivityType() {
+    return activityType;
+  }
+
+  _calculatePercentageByType() async {
     if (activityType == 'Walking') {
       percentageByType = '${(walkPercentage * 100).round()}%';
       percentageByTypeInDouble = walkPercentage;
@@ -83,6 +89,22 @@ class RouteCubit extends Cubit<DbRoute> {
     } else if (activityType == 'Cycling') {
       percentageByType = '${(ridePercentage * 100).round()}%';
       percentageByTypeInDouble = ridePercentage;
+    }
+  }
+
+  _filterRoutesByActivityId(List<DbRoute> routes, String activity) async {
+    switch (activity) {
+      case 'Walking':
+        routesByActivityId =
+            routes.where((route) => route.activityId == 1).toList();
+      case 'Running':
+        routesByActivityId =
+            routes.where((route) => route.activityId == 2).toList();
+      case 'Cycling':
+        routesByActivityId =
+            routes.where((route) => route.activityId == 3).toList();
+      default:
+        routesByActivityId = [];
     }
   }
 }

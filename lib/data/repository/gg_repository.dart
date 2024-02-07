@@ -144,7 +144,6 @@ create table ${AppConst.dbRouteTable} (
       );
     } catch (e) {
       return 0;
-      print(e.toString());
     }
   }
 

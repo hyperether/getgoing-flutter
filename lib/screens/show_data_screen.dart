@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:getgoing_flutter/data/cubit/route_cubit.dart';
+import 'package:getgoing_flutter/utils/utility_functions.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import '../../models/db_route.dart';
@@ -44,8 +45,6 @@ class RouteList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    routeCubit.calculatePercentageByType();
-
     return BlocBuilder<RouteCubit, DbRoute>(
       bloc: routeCubit,
       builder: (context, route) {
@@ -143,16 +142,23 @@ class RouteList extends StatelessWidget {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: routeCubit.routes.length,
+                    itemCount: routeCubit.routesByActivityId.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 1.0,
-                          horizontal: 4.0,
-                        ),
+                      DbRoute route = routeCubit.routesByActivityId[index];
+                      String activityType = "";
+                      if (route.activityId == 1) {
+                        activityType = 'Walking';
+                      } else if (route.activityId == 2) {
+                        activityType = 'Running';
+                      } else if (route.activityId == 3) {
+                        activityType = 'Cycling';
+                      }
+                      return Card(
                         child: ListTile(
-                          onTap: () {},
-                          title: Text('${routeCubit.routes[index]}'),
+                          onTap: () {
+                            showToast('$activityType,   ${route.date}');
+                          },
+                          title: Text('$activityType,   ${route.date}'),
                         ),
                       );
                     },

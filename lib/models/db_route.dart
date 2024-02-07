@@ -65,7 +65,7 @@ class DbRoute {
         'duration: $duration, '
         'energy: $energy, '
         'length: $length, '
-        'date: $duration, '
+        'date: $date, '
         'avgSpeed: $avgSpeed, '
         'currentSpeed: $currentSpeed, '
         'activityId: $activityId, '
