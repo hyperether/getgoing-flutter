@@ -1,22 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesManager {
-  static const String _key = 'myKey';
   static const String _gender = 'gender';
   static const String _age = 'age';
   static const String _goal = 'goal';
   static const String _weight = 'weight';
   static const String _walkRouteExist = 'walkRouteExist';
-
-  static Future<void> saveValue(String value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_key, value);
-  }
-
-  static Future<String> loadValue() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_key) ?? '';
-  }
 
   static Future<void> setGender(int value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

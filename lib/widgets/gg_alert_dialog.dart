@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:getgoing_flutter/domain/repository/shared_preferences_manager.dart';
+import 'package:getgoing_flutter/data/repository/shared_preferences_manager.dart';
 
 class GGAlertDialog extends StatefulWidget {
   final Function(int) callback;

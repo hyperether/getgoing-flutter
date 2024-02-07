@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import '../domain/repository/gg_repository.dart';
+import '../data/repository/gg_repository.dart';
 import '../widgets/centered_horizontal_list_view.dart';
 
 class GetGoingMain extends StatefulWidget {

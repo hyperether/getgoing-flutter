@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:getgoing_flutter/domain/repository/shared_preferences_manager.dart';
+import 'package:getgoing_flutter/data/repository/shared_preferences_manager.dart';
 import 'package:getgoing_flutter/utils/app_constants.dart';
 import 'package:getgoing_flutter/widgets/gg_alert_dialog.dart';
 import '../utils/utility_functions.dart';

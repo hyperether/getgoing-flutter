@@ -1,10 +1,9 @@
 import 'dart:io';
-
-import 'package:getgoing_flutter/domain/models/db_node.dart';
+import 'package:getgoing_flutter/models/db_node.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import '../../models/db_route.dart';
 import '../../utils/app_constants.dart';
-import '../models/db_route.dart';
 import 'package:path_provider/path_provider.dart';
 
 class GGRepository {

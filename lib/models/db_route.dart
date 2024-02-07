@@ -9,6 +9,18 @@ class DbRoute {
   final int activityId;
   final int goal;
 
+  // Named constructor
+  DbRoute.empty()
+      : id = null,
+        duration = 0,
+        energy = 0,
+        length = 0,
+        date = '',
+        avgSpeed = 0,
+        currentSpeed = 0,
+        activityId = 0,
+        goal = 0;
+
   DbRoute(
       {this.id,
       required this.duration,

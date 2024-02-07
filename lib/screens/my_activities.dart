@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:getgoing_flutter/providers/route_provider.dart';
+import 'package:getgoing_flutter/data/providers/route_provider.dart';
 import 'package:getgoing_flutter/widgets/get_going_seek_bar.dart';
 import 'package:provider/provider.dart';
-import '../domain/models/db_route.dart';
+import '../../models/db_route.dart';
 import '../utils/utility_functions.dart';
 
 class MyActivities extends StatefulWidget {
@@ -52,10 +52,10 @@ class _MyActivitiesState extends State<MyActivities> {
                                           fontSize: 18.0)),
                                   InkWell(
                                     onTap: () async {
-                                      if (routes.doesRouteExist) {
+                                      if (!routes.doesRouteExist) {
+                                        routes.setActivityType('Walking');
                                         await Navigator.pushNamed(
-                                            context, '/showData',
-                                            arguments: 'Walking');
+                                            context, '/showData');
                                       } else {
                                         showNoRoutesDialog(context, 0);
                                       }
@@ -106,9 +106,9 @@ class _MyActivitiesState extends State<MyActivities> {
                                   InkWell(
                                     onTap: () async {
                                       if (!routes.doesRouteExist) {
+                                        routes.setActivityType('Running');
                                         await Navigator.pushNamed(
-                                            context, '/showData',
-                                            arguments: 'Running');
+                                            context, '/showData');
                                       } else {
                                         return showNoRoutesDialog(context, 1);
                                       }
@@ -159,9 +159,9 @@ class _MyActivitiesState extends State<MyActivities> {
                                   InkWell(
                                     onTap: () async {
                                       if (!routes.doesRouteExist) {
+                                        routes.setActivityType('Cycling');
                                         await Navigator.pushNamed(
-                                            context, '/showData',
-                                            arguments: 'Cycling');
+                                            context, '/showData');
                                       } else {
                                         return showNoRoutesDialog(context, 2);
                                       }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:getgoing_flutter/widgets/age_picker_dialog.dart';
 import 'package:getgoing_flutter/widgets/gender_dialog.dart';
-import '../domain/models/gender.dart';
-import '../domain/repository/shared_preferences_manager.dart';
+import '../../models/gender.dart';
+import '../data/repository/shared_preferences_manager.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

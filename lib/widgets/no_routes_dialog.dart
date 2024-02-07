@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../domain/repository/shared_preferences_manager.dart';
-
+import '../data/repository/shared_preferences_manager.dart';
 
 class NoRoutesDialog extends StatelessWidget {
   final int activityId;

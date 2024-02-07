@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:getgoing_flutter/domain/models/db_route.dart';
-import '../domain/repository/gg_repository.dart';
-import '../domain/repository/shared_preferences_manager.dart';
+import '../../models/db_route.dart';
+import '../repository/gg_repository.dart';
+import '../repository/shared_preferences_manager.dart';
 
 class RouteProvider extends ChangeNotifier {
   final GGRepository _repository = GGRepository.instance;
@@ -13,6 +13,7 @@ class RouteProvider extends ChangeNotifier {
   double runPercentage = 0.0;
   double ridePercentage = 0.0;
   bool doesRouteExist = false;
+  String activityType = "";
 
   Future<List<DbRoute>> getAllDBRoutes() async {
     routes = await _repository.getAllDBRoutes();
@@ -55,5 +56,9 @@ class RouteProvider extends ChangeNotifier {
     bool doesRouteExisting =
         await SharedPreferencesManager.doesWalkRouteExist();
     doesRouteExist = doesRouteExisting;
+  }
+
+  void setActivityType(String type){
+    activityType = type;
   }
 }
